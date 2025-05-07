@@ -19,6 +19,7 @@ async function main() {
   const arch = core.getInput('arch', { required: true });
   const distro = core.getInput('distro', { required: true });
   const base_image = core.getInput('base_image', { required: false });
+  const python = core.getInput('python', { required: true });
 
   if((arch==='none' || distro==='none') && !base_image){
     throw new Error(`run-on-arch: If arch and distro are not specified, base_image is required.`);
@@ -120,7 +121,7 @@ async function main() {
   // Generate a container name slug unique to this workflow
   const containerName = slug([
     'run-on-arch', env.GITHUB_REPOSITORY, env.GITHUB_WORKFLOW,
-    arch, distro,
+    arch, distro, python,
   ].join('-'));
 
   console.log('Configuring Docker for multi-architecture support');
